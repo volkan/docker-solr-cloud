@@ -14,8 +14,10 @@ ADD ./conf /cloud-conf
 VOLUME ["conf"]
 
 ADD scripts/install.sh /install.sh
-RUN chmod 755 /install.sh
+ADD scripts/start.sh /start.sh
+RUN chmod 755 /install.sh /start.sh
+RUN /bin/bash /install.sh
 
 EXPOSE 8983 8984 2181 2182 2183
 
-CMD ["/bin/bash", "/install.sh"]
+ENTRYPOINT /bin/bash /start.sh && /bin/bash

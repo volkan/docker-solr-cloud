@@ -5,7 +5,7 @@ set -e
 useradd solr
 
 wget https://archive.apache.org/dist/lucene/solr/5.5.1/solr-5.5.1.tgz
-tar xzf solr-5.5.1.tgz && solr-5.5.1/bin/install_solr_service.sh --strip-components=2
+tar xzf solr-5.5.1.tgz
 
 bash solr-5.5.1/bin/install_solr_service.sh solr-5.5.1.tgz
 chown solr:solr /var/solr -R
@@ -47,7 +47,9 @@ echo 1 > /var/lib/zookeeperdata/1/myid
 echo 2 > /var/lib/zookeeperdata/2/myid
 echo 3 > /var/lib/zookeeperdata/3/myid
 
-service zookeeper start && service zookeeper2 start && service zookeeper3 start
+service zookeeper start
+service zookeeper2 start
+service zookeeper3 start
 
 sed -i -e "s/\#ZK_HOST=\"\"/ZK_HOST=\"localhost:2181,localhost:2182,localhost:2183\"/g" /etc/default/solr.in.sh
 sed -i -e "s/\#ZK_HOST=\"\"/ZK_HOST=\"localhost:2181,localhost:2182,localhost:2183\"/g" /etc/default/solr2.in.sh
@@ -55,4 +57,4 @@ sed -i -e "s/\#ZK_HOST=\"\"/ZK_HOST=\"localhost:2181,localhost:2182,localhost:21
 service solr restart
 service solr2 restart
 
-
+bash /opt/solr/bin/solr create_collection -shards 2 -replicationFactor 2 -c product -d /opt/solr-5.5.1/server/solr/configsets/data_driven_schema_configs
