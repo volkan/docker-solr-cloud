@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# chkconfig: - 75 50
+# description: Starts and stops Zookeeper
+
+cd /opt/zookeeper2
+bin/zkServer.sh $1
