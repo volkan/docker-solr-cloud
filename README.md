@@ -3,6 +3,7 @@
 
 ```
 git clone https://github.com/volkan/docker-solr-cloud.git
+cd docker-solr-cloud
 docker build -t volkan/solrcloud .
 ```
 
